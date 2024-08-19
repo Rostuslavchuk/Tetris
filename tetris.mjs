@@ -156,43 +156,23 @@ document.addEventListener("DOMContentLoaded", () => {
     
         if (rowsToDelete.length > 0) {
 
-            let deleted = 0;
             rowsToDelete.forEach(row => {
-                merge = merge.filter(cell => cell.y !== row, deleted++);
+                merge = merge.filter(cell => cell.y !== row);
             });
 
-            if(deleted === 0){
-                return;
-            }
 
             if (score) {
                 score.textContent = parseInt(score.textContent) + rowsToDelete.length * 100;
             }
             
-            if(deleted === rowsToDelete.length){
-                for (const [key, value] of y.entries()) {
-                    for (let i = 0; i < merge.length; i++) {
-                        
-                        if (key > merge[i].y) {
-                            let canMoveDown = true;
-                        
-                            while (canMoveDown) {
-                                let Y = merge[i].y + CONSTANTS.cellSize;
-                        
-                                if (Y < canv.height && !merge.some(cell => cell.x === merge[i].x && cell.y === Y)) {
-                                    merge[i].y += CONSTANTS.cellSize;
-                                } else {
-                                    canMoveDown = false;
-                                    break;
-                                }
-                            }
-                        }
+            rowsToDelete.forEach(row => {
+                merge.forEach(cell => {
+                    if (cell.y < row) {
+                        cell.y += CONSTANTS.cellSize;
                     }
-                }
-            }
-
-            checkMerge();
-        }        
+                });
+            });
+        }     
     }
     
 
