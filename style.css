@@ -1,0 +1,26 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100%;
+    display: grid;
+    place-items: center;
+}
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 20px;
+    padding: 10px 30px;
+    gap: 10px;
+}
+.container .container__start-btn {
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+.container__score{
+    display: flex;
+}
