@@ -100,10 +100,16 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         let canRotate = true;
-        for (let i = 0; i < rotatedFigure.length; i++) {
-            if (rotatedFigure[i].x < 0 || rotatedFigure[i].x + CONSTANTS.cellSize > canv.width ||
-                rotatedFigure[i].y < 0 || rotatedFigure[i].y + CONSTANTS.cellSize > canv.height || 
-                merge.some(cell => cell.x === rotatedFigure[i].x + CONSTANTS.cellSize && cell.y === rotatedFigure[i].y + CONSTANTS.cellSize)) {
+         for (let i = 0; i < rotatedFigure.length; i++) {
+
+            let X = rotatedFigure[i].x + CONSTANTS.cellSize;
+            let Y = rotatedFigure[i].y + CONSTANTS.cellSize;
+
+            if (rotatedFigure[i].x < 0 || X > canv.width ||
+                rotatedFigure[i].y < 0 || Y > canv.height || 
+                merge.some(cell => cell.x === X && cell.y === rotatedFigure[i].y) || 
+                merge.some(cell => cell.y === Y && cell.x === rotatedFigure[i].x) 
+            ) {
                 canRotate = false;
                 break;
             }
@@ -165,11 +171,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 score.textContent = parseInt(score.textContent) + rowsToDelete.length * 100;
             }
             
-            rowsToDelete.forEach(row => {
+             rowsToDelete.forEach(row => {
                 merge.forEach(cell => {
+                
                     if (cell.y < row) {
-                        cell.y += CONSTANTS.cellSize;
+                        for (let i = 0; i < rowsToDelete.length; i++) {
+                            cell.y += CONSTANTS.cellSize;
+                        }
                     }
+
                 });
             });
         }     
